@@ -25,3 +25,9 @@ img, canvas {
 #lut_output {
 	float: right;
 }
+
+#stdout {
+	clear: all;
+	background: #111;
+	color: #2d2;
+}
