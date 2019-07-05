@@ -59,11 +59,27 @@ let image_srcs = [
 ];
 
 
-let palette_picker = document.getElementById('palette_picker');
+let palettes, palette_picker = document.getElementById('palette_picker');
 
-image_srcs.forEach(function(img) {
+image_srcs.forEach(function(img, i) {
 	let name = img.replace('images/', '').replace('.PNG', '');
 	let p = document.createElement('p');
 	p.innerHTML = name + '<br>' + '<img src="' + img + '">';
 	palette_picker.appendChild(p);
+	print(name + ' loaded');
+
+	// are we done? let's do some stuff!
+	if (i == image_srcs.length - 1) {
+		print(image_srcs.length + ' total imagers loadeded.');
+		palettes = document.querySelectorAll('#palette_picker img');
+
+		// init palette clicks
+		palettes.forEach(function(palette) {
+			palette.addEventListener('click', e => { 
+				print('ANALyzing ' + e.target.src + ' . . . ');
+				image_to_lut(image_to_canvas(e.target));
+			});
+		});
+	}
 });
+

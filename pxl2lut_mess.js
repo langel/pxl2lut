@@ -11,6 +11,8 @@ let color_diff = function(r1, g1, b1, r2, g2, b2) {
 	diff += Math.pow(g1 - g2, 2);
 	diff += Math.pow(b1 - b2, 2);
 	return Math.sqrt(diff);
+	// corruption algo :D
+	//return Math.sqrt((r1 - r2) * (g1 - g2) * (b1 - b2));
 }
 
 let nearest_color = function(color, palette) {
@@ -23,7 +25,7 @@ let nearest_color = function(color, palette) {
 		let diff = color_diff(color[0], color[1], color[2],
 			palette[key].data[0], palette[key].data[1], palette[key].data[2]);
 		//console.log(diff);
-		if (best_diff > Math.abs(diff)) {
+		if (best_diff > Math.abs(diff) || best_id == 0) {
 			best_diff = Math.abs(diff);
 			best_id = key;
 //			console.log(best_id);
@@ -92,17 +94,8 @@ let scrub_colors = function(ctx) {
 
 let LUT;
 let lutsrc = image_to_canvas(document.querySelector('#lutsrc img'));
-let stdout = document.getElementById('stdout');
 
 let canvas_wrapper = document.getElementById('canvas_wrapper');
-let palettes = document.querySelectorAll('#palette_picker img');
-
-// init palette clicks
-palettes.forEach(function(palette) {
-	palette.addEventListener('click', e => { 
-		image_to_lut(image_to_canvas(e.target));
-	});
-});
 
 // load lutter
 let init_lutter = function() {
@@ -117,7 +110,7 @@ let image_to_lut = function(image) {
 	let input_colors = scrub_colors(image.getContext('2d'));
 	let input_colors_keys = Object.keys(input_colors);
 	let input_colors_count = input_colors_keys.length;
-	stdout.textContent = 'Colors found: ' + input_colors_count;
+	print(input_colors_count + ' colors found');
 	init_lutter();
 	ctx = LUT.getContext('2d');
 	console.log(ctx);

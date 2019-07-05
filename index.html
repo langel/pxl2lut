@@ -6,20 +6,27 @@
 
 <body>
 
+	<div id="console">
+
+		<div id="lut_output">
+			<h1>LUT output</h1>
+			<div id="canvas_wrapper"></div>
+		</div>
+
+		<div id="palette_picker">
+			Clickable Palettes!
+		</div>
+
+		<div id="stdout">
+			stdout
+		</div>
+
+	</div>
+
+	<!-- hidden by CSS majyx!! :U -->
 	<div id="lutsrc"><img src="LUT-base.png"></div>
 
-	<div id="palette_picker">
-		Click Palettes!
-	</div>
-
-	<div id="lut_output">
-		<div id="canvas_wrapper"></div>
-	</div>
-
-	<div id="stdout">
-		stdout
-	</div>
-
+	<script type="text/javascript" src="stdout.js"></script>
 	<script type="text/javascript" src="palettes.js"></script>
 	<script type="text/javascript" src="pxl2lut_mess.js"></script>
 </body>
