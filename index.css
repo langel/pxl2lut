@@ -20,6 +20,8 @@ img, canvas {
 
 #palette_picker img {
 	cursor: pointer;
+	max-height: 50px;
+	max-width: 300px;
 }
 
 #lut_output {
