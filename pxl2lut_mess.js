@@ -67,6 +67,12 @@ let image_to_canvas = function(image) {
 	console.log(image);
 	canvas.width = image.width;
 	canvas.height = image.height;
+	if (typeof image.naturalWidth !== 'undefined') {
+		canvas.width = image.naturalWidth;
+		canvas.height = image.naturalHeight;
+	}
+	console.log(image.width);
+	console.log(image.naturalWidth);
 	canvas.getContext('2d').drawImage(image, 0, 0);
 	canvas.setAttribute('crossOrigin', '');
 	return canvas;
@@ -93,7 +99,7 @@ let scrub_colors = function(ctx) {
 }
 
 let LUT;
-let lutsrc = image_to_canvas(document.querySelector('#lutsrc img'));
+let lutsrc = image_to_canvas(document.querySelector('#lut_src'));
 
 let canvas_wrapper = document.getElementById('canvas_wrapper');
 
@@ -108,25 +114,67 @@ setTimeout(init_lutter(), 100);
 
 let image_to_lut = function(image) {
 	let input_colors = scrub_colors(image.getContext('2d'));
+	console.log(input_colors);
 	let input_colors_keys = Object.keys(input_colors);
+	console.log(input_colors_keys);
 	let input_colors_count = input_colors_keys.length;
+	// output colors info
 	print(input_colors_count + ' colors found');
+	let avg = { r:0, g:0, b:0 };
+	let brightest = { r:0, g:0, b:0, avg:0 };
+	let darkest = { r:255, g:255, b:255, avg:255 };
+	let swatches = '';
+	// and get average too
+	input_colors_keys.forEach(function(color) {
+		let data = int_to_color_data(color);
+		console.log(data);
+		// track average data
+		avg.r += data[0];
+		avg.g += data[1];
+		avg.b += data[2];
+		// track brightest data
+		c_avg = Math.round((data[0] + data[1] + data[2]) / 3)
+		if (c_avg > brightest.avg) {
+			brightest = { r:data[0], g:data[1], b:data[2], avg:c_avg };
+		}
+		// track darkest data
+		if (c_avg < darkest.avg) {
+			darkest = { r:data[0], g:data[1], b:data[2], avg:c_avg };
+		}
+		swatches += '<span class="swatch" style="background: rgb(' + data[0] + ', ' + data[1] + ', ' + data[2] + ');"></span>';
+	});
+	print(swatches);
+	// show average color
+	avg.r = Math.round(avg.r / input_colors_keys.length);
+	avg.g = Math.round(avg.g / input_colors_keys.length);
+	avg.b = Math.round(avg.b / input_colors_keys.length);
+	let avgrgb = 'rgb(' + avg.r + ', ' + avg.g + ', ' + avg.b + ')';
+	print('average color: ' + avgrgb + ' <span class ="swatch" style="background: ' + avgrgb + '">');
+	let brtrgb = 'rgb(' + brightest.r + ', ' + brightest.g + ', ' + brightest.b + ')';
+	print('brightest color: ' + brtrgb + ' <span class ="swatch" style="background: ' + brtrgb + '">');
+	let drkrgb = 'rgb(' + darkest.r + ', ' + darkest.g + ', ' + darkest.b + ')';
+	print('darkest color: ' + drkrgb + ' <span class ="swatch" style="background: ' + drkrgb + '">');
+	// get lutter into action!
 	init_lutter();
 	ctx = LUT.getContext('2d');
 	console.log(ctx);
-	for (var x = 0; x < ctx.canvas.width; x++) {
-	//for (var x = 0; x < 1; x++) {
-		console.log(x);
-		for (var y =0; y < ctx.canvas.height; y++) {
-			let p = pixel_get(ctx, x, y);
-			//p = closest_value(p, input_colors_keys);
-			p = nearest_color(p, input_colors);
-			pixel_set(ctx, x, y, p);
-		}
-	}
+	// let's launch this sucka!
+	print('Processing . . . .');
+	setTimeout(recursive_process_x, 10, 0, ctx, input_colors);
 }
 
-
+let recursive_process_x = function(x, ctx, input_colors) {
+	console.log(x);
+	for (var y =0; y < ctx.canvas.height; y++) {
+		let p = pixel_get(ctx, x, y);
+		//p = closest_value(p, input_colors_keys);
+		p = nearest_color(p, input_colors);
+		pixel_set(ctx, x, y, p);
+	}
+	x++;
+	if (x < ctx.canvas.width) setTimeout(recursive_process_x, 10, x, ctx, input_colors);
+	else print('LUT render complete. :D/');
+}
 
 
 

@@ -9,8 +9,12 @@
 	<div id="console">
 
 		<div id="lut_output">
-			<h1>LUT output</h1>
-			<div id="canvas_wrapper"></div>
+			<span class="big">LUT output</span>
+			(right-click to Save As...)
+			<div id="lut_wrapper">
+				<img id="lut_src" src="LUT-base.png">
+				<div id="canvas_wrapper"></div>
+			</div>
 		</div>
 
 		<div id="palette_picker">
@@ -22,9 +26,6 @@
 		</div>
 
 	</div>
-
-	<!-- hidden by CSS majyx!! :U -->
-	<div id="lutsrc"><img src="LUT-base.png"></div>
 
 	<script type="text/javascript" src="stdout.js"></script>
 	<script type="text/javascript" src="palettes.js"></script>
