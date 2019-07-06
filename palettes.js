@@ -2,7 +2,7 @@
 
 
 let image_srcs = [
-	'17undertones.PNG'
+	'17undertones.PNG',
 	'6-bit rgb.PNG',
 	'aap-64.PNG',
 	'aap-splendor128.PNG',
@@ -45,9 +45,9 @@ let image_srcs = [
 	'fleja master palette.PNG',
 	'froste 16.PNG',
 	'greenstar32.PNG',
-	'hallow pumpkin.PNG,
+	'hallow pumpkin.PNG',
 	'humers.PNG',
-	'indecision.PNG,
+	'indecision.PNG',
 	'journey.PNG',
 	'juice 32.PNG',
 	'juice 56.PNG',
@@ -57,7 +57,7 @@ let image_srcs = [
 	'marshamallow32.PNG',
 	'matriax8c.PNG',
 	'mspaint xp.PNG',
-	'nature's embrace 55.PNG',
+	'nature\'s embrace 55.PNG',
 	'nes.PNG',
 	'nt1h.PNG',
 	'oak21.PNG',
