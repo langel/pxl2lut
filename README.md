@@ -1,4 +1,5 @@
 # pxl2lut
 Pixel Palette to LUT Converter 
 
-trying to get to proof of concept for now...
+check out the working proof of concept at:
+http://b-knox.com/misc/pxl2lut/
